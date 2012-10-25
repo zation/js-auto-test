@@ -11,9 +11,9 @@
 #   - dist/**/*.js
 #
 src_files:
-    - todo/js/jquery.min.js
-    - todo/js/handlebars.min.js
-    - todo/js/app.js
+    - lib/js/jquery.min.js
+    - lib/js/handlebars.min.js
+    - todo/jquery/js/app.js
 
 # stylesheets
 #

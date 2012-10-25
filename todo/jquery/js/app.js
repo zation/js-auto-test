@@ -155,6 +155,6 @@
 		}
 	};
 
-	window.App = App;
+	window.jqueryApp = App;
 
 })($, window);
