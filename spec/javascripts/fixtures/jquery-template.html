@@ -1,3 +1,13 @@
+<script id="footer-template" type="text/x-handlebars-template">
+  <span id="todo-count">
+    <strong>{{activeTodoCount}}</strong>
+    {{activeTodoWord}} left
+  </span>
+  {{#if completedTodos}}
+    <button id="clear-completed">Clear completed ({{completedTodos}})</button>
+  {{/if}}
+</script>
+
 <script id="todo-template" type="text/x-handlebars-template">
   {{#this}}
   <li {{#if completed}}class="completed"{{/if}} data-id="{{id}}">

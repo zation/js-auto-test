@@ -24,4 +24,4 @@ var app = app || {};
 	app.TodoRouter = new Workspace();
 	Backbone.history.start();
 
-}());
+})();

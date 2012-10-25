@@ -11,8 +11,12 @@
 #   - dist/**/*.js
 #
 src_files:
-    - lib/js/jquery.min.js
-    - lib/js/handlebars.min.js
+    - lib/js/*.js
+    - todo/backbone/js/lib/backbone-min.js
+    - todo/backbone/js/lib/underscore-min.js
+    - todo/backbone/js/lib/backbone-localstorage.js
+    - todo/backbone/js/*/*.js
+    - todo/backbone/js/app.js
     - todo/jquery/js/app.js
 
 # stylesheets
