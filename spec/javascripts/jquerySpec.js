@@ -29,4 +29,17 @@ describe('jquery app', function() {
     expect(jqueryApp.bindEvents).toHaveBeenCalled();
     expect(jqueryApp.render).toHaveBeenCalled();
   });
+
+  it('should cache elements', function() {
+    spyOn(Handlebars, 'compile').andCallFake(function(arg) {
+      return arg;
+    });
+
+    jqueryApp.cacheElements();
+
+    expect(jqueryApp.todoTemplate).toEqual('todo-template');
+    expect(jqueryApp.footerTemplate).toEqual('footer-template');
+    expect(jqueryApp.$todoApp).toHaveId('todoapp');
+    expect(jqueryApp.$newTodo).toHaveId('new-todo');
+  });
 });
