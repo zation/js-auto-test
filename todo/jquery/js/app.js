@@ -2,29 +2,28 @@
 (function($, window) {
 	'use strict';
 
-	var Utils = {
-		// https://gist.github.com/1308368
-		uuid: function(a, b) {
-			for(b = a = ''; a++ < 36; b += a * 51 & 52 ? (a ^ 15 ? 8 ^ Math.random() * (a ^ 20 ? 16 : 4) : 4).toString(16) : '-');
-			return b
-		},
-		pluralize: function(count, word) {
-			return count === 1 ? word : word + 's';
-		},
-		store: function(namespace, data) {
-			if(arguments.length > 1) {
-				return localStorage.setItem(namespace, JSON.stringify(data));
-			} else {
-				var store = localStorage.getItem(namespace);
-				return(store && JSON.parse(store)) || [];
-			}
-		}
-	};
-
 	var App = {
+		Utils: {
+			// https://gist.github.com/1308368
+			uuid: function(a, b) {
+				for(b = a = ''; a++ < 36; b += a * 51 & 52 ? (a ^ 15 ? 8 ^ Math.random() * (a ^ 20 ? 16 : 4) : 4).toString(16) : '-');
+				return b
+			},
+			pluralize: function(count, word) {
+				return count === 1 ? word : word + 's';
+			},
+			store: function(namespace, data) {
+				if(arguments.length > 1) {
+					return localStorage.setItem(namespace, JSON.stringify(data));
+				} else {
+					var store = localStorage.getItem(namespace);
+					return(store && JSON.parse(store)) || [];
+				}
+			}
+		},
 		init: function() {
 			this.ENTER_KEY = 13;
-			this.todos = Utils.store('todos-jquery');
+			this.todos = this.Utils.store('todos-jquery');
 			this.cacheElements();
 			this.bindEvents();
 			this.render();
@@ -57,11 +56,12 @@
 			this.$main.toggle( !! this.todos.length);
 			this.$toggleAll.prop('checked', !this.activeTodoCount());
 			this.renderFooter();
-			Utils.store('todos-jquery', this.todos);
+			this.Utils.store('todos-jquery', this.todos);
 		},
 		renderFooter: function() {
 			var todoCount = this.todos.length,
 				activeTodoCount = this.activeTodoCount(),
+				Utils = this.Utils,
 				footer = {
 					activeTodoCount: activeTodoCount,
 					activeTodoWord: Utils.pluralize(activeTodoCount, 'item'),
@@ -110,7 +110,8 @@
 		},
 		create: function(e) {
 			var $input = $(this),
-				val = $.trim($input.val());
+				val = $.trim($input.val()),
+				Utils = App.Utils;
 			if(e.which !== App.ENTER_KEY || !val) {
 				return;
 			}
