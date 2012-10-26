@@ -42,4 +42,12 @@ describe('jquery app', function() {
     expect(jqueryApp.$todoApp).toHaveId('todoapp');
     expect(jqueryApp.$newTodo).toHaveId('new-todo');
   });
+
+  it('should bind events', function() {
+    jqueryApp.create = jasmine.createSpy();
+    jqueryApp.bindEvents();
+    jqueryApp.$newTodo.keyup();
+
+    expect(jqueryApp.create).toHaveBeenCalled();
+  });
 });
