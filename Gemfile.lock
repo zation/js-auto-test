@@ -32,6 +32,8 @@ GEM
       libwebsocket (~> 0.1.3)
       multi_json (~> 1.0)
       rubyzip
+    shotgun (0.9)
+      rack (>= 1.0)
     sinatra (1.3.3)
       rack (~> 1.3, >= 1.3.6)
       rack-protection (~> 1.2)
@@ -43,4 +45,5 @@ PLATFORMS
 
 DEPENDENCIES
   jasmine
+  shotgun
   sinatra

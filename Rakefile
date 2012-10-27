@@ -1,3 +1,10 @@
+task :start do
+  system('ruby', 'controller.rb')
+end
+
+task :test do
+  system('shotgun', 'controller.rb')
+end
 
 begin
   require 'jasmine'
