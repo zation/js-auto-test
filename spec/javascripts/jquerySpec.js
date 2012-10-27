@@ -2,6 +2,7 @@ describe('jquery app', function() {
   var jqueryAppBackup;
 
   beforeEach(function() {
+    jasmine.Ajax.useMock();
     var fixtures = '<div id="todo-template">todo-template</div>' +
       '<div id="footer-template">footer-template</div>' +
       '<div id="todoapp">' +
@@ -57,7 +58,7 @@ describe('jquery app', function() {
   });
 
   it('should create task', function() {
-    var input = $('<input value="some value" >'),
+    var input = $('<input value="something" >'),
       e = {
         which: 'ENTER_KEY'
       },
@@ -72,7 +73,7 @@ describe('jquery app', function() {
 
     expect(jqueryApp.todos).toContain({
       id: 'uuid',
-      title: 'some value',
+      title: 'something',
       completed: false
     });
     expect(input).toHaveValue('');
@@ -80,5 +81,36 @@ describe('jquery app', function() {
 
     jqueryApp.ENTER_KEY = originalENTER_KEY;
     jqueryApp.todos = orignalTodos;
+  });
+
+  it('should create task and send to server', function() {
+    var input = $('<input value="something" >'),
+      e = {
+        which: 'ENTER_KEY'
+      },
+      orignalTodos = jqueryApp.todos,
+      originalENTER_KEY = jqueryApp.ENTER_KEY,
+      response = {
+          responseText: "success",
+          contentType: "text/plain",
+          status: 200
+      },
+      url = '/task';
+    jqueryApp.todos = [];
+    jqueryApp.ENTER_KEY = 'ENTER_KEY';
+    spyOn(jqueryApp.Utils, 'uuid').andReturn('uuid');
+    spyOn(jqueryApp, 'render');
+
+    jqueryApp.create.call(input, e);
+    var request = mostRecentAjaxRequest();
+    request.response(response);
+
+    expect(request.url).toEqual(url);
+    expect(request.method).toEqual('POST');
+    expect(request.params).toEqualData({
+        id: 'uuid',
+        title: 'something',
+        completed: false
+    });
   });
 });

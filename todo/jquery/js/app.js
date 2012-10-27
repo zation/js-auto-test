@@ -115,13 +115,15 @@
 			if(e.which !== App.ENTER_KEY || !val) {
 				return;
 			}
-			App.todos.push({
+			var todo = {
 				id: Utils.uuid(),
 				title: val,
 				completed: false
-			});
+			};
+			App.todos.push(todo);
 			$input.val('');
 			App.render();
+			$.post('/task', todo);
 		},
 		toggle: function() {
 			App.getTodo(this, function(i, val) {
