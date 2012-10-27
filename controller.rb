@@ -10,6 +10,10 @@ get '/backbone' do
   redirect('/todo/backbone/index.html')
 end
 
+post '/task' do
+  return 'success'
+end
+
 get '*' do |path|
   File.read(path)
 end
