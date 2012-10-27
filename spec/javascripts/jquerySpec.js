@@ -1,4 +1,6 @@
 describe('jquery app', function() {
+  var jqueryAppBackup;
+
   beforeEach(function() {
     var fixtures = '<div id="todo-template">todo-template</div>' +
       '<div id="footer-template">footer-template</div>' +
@@ -44,10 +46,39 @@ describe('jquery app', function() {
   });
 
   it('should bind events', function() {
+    var orignalCreate = jqueryApp.create;
     jqueryApp.create = jasmine.createSpy();
     jqueryApp.bindEvents();
     jqueryApp.$newTodo.keyup();
 
     expect(jqueryApp.create).toHaveBeenCalled();
+
+    jqueryApp.create = orignalCreate;
+  });
+
+  it('should create task', function() {
+    var input = $('<input value="some value" >'),
+      e = {
+        which: 'ENTER_KEY'
+      },
+      originalENTER_KEY = jqueryApp.ENTER_KEY,
+      orignalTodos = jqueryApp.todos;
+    jqueryApp.ENTER_KEY = 'ENTER_KEY';
+    jqueryApp.todos = [];
+    spyOn(jqueryApp.Utils, 'uuid').andReturn('uuid');
+    spyOn(jqueryApp, 'render');
+
+    jqueryApp.create.call(input, e);
+
+    expect(jqueryApp.todos).toContain({
+      id: 'uuid',
+      title: 'some value',
+      completed: false
+    });
+    expect(input).toHaveValue('');
+    expect(jqueryApp.render).toHaveBeenCalled();
+
+    jqueryApp.ENTER_KEY = originalENTER_KEY;
+    jqueryApp.todos = orignalTodos;
   });
 });
